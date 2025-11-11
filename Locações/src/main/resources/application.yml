@@ -1,6 +1,6 @@
 spring:
   application:
-    name=Locacoes Web
+    name: Locacoes Web
   jpa:
     show-sql: true
     properties:
@@ -9,14 +9,17 @@ spring:
   generate-ddl: true
   hibernate:
     ddl-auto: validate
-  open-in-view:  true
+  open-in-view: true
 
   datasource:
     url: jdbc:mysql://localhost:3307/locacoes-web
     username: root
     password: locacoes123
-    drive-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-  flyway:
-    enable: true
-    baseline-on-migrate: true
+flyway:
+  enabled: true
+  baseline-on-migrate: true
+
+server:
+  port: 8081

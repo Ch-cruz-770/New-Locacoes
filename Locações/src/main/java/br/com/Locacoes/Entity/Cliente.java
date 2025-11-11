@@ -16,19 +16,19 @@ import java.time.LocalDateTime;
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   @Column(nullable = false)
+   @Column(name = "nome",nullable = false)
     private String nome;
 
-   @Column(nullable = false)
+   @Column(name = "email",nullable = false)
     private String email;
 
-   @Column(nullable = false)
+   @Column(name = "telefone",nullable = false)
    private String telefone;
 
-   @Column(nullable = false)
+   @Column(name = "cpf",nullable = false)
    private String cpf;
 
-   @Column(nullable = false, updatable = false)
+   @Column(name = "data_criacao",nullable = false, updatable = false)
    private LocalDateTime dataCriacao;
 
    @PrePersist

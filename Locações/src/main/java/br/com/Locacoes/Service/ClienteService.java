@@ -1,9 +1,10 @@
 package br.com.Locacoes.Service;
 
+import br.com.Locacoes.DTO.ClienteDTO;
 import br.com.Locacoes.Entity.Cliente;
 import br.com.Locacoes.Exception.ClienteNotFound;
+import br.com.Locacoes.Mapper.ClienteMapper;
 import br.com.Locacoes.Repository.ClienteRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,24 +17,31 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Cliente buscarCliente(Long id) {
+    @Autowired
+    private ClienteMapper clienteMapper;
+
+    public ClienteDTO buscarCliente(Long id) {
         Optional<Cliente> clienteOp = clienteRepository.findById(id);
-        return clienteOp.orElseThrow(() -> new ClienteNotFound("Cliente com o ID "+id+" não encontrado"));
+
+        Cliente cliente = clienteOp.orElseThrow(() -> new ClienteNotFound("Cliente com o ID "+id+" não encontrado"));
+        return clienteMapper.toDTO(cliente);
     }
 
-    public Cliente adicionarCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteDTO adicionarCliente(ClienteDTO cliente) {
+        Cliente clienteEntity = clienteMapper.toEntity(cliente);
+        return clienteMapper.toDTO(clienteRepository.save(clienteEntity));
     }
 
-    public List<Cliente> buscarClientes() {
-        return clienteRepository.findAll();
+    public List<ClienteDTO> listarClientes() {
+        return clienteMapper.toDTOList(clienteRepository.findAll());
     }
 
-    public Cliente atualizarCliente(Long id, Cliente cliente) {
+    public ClienteDTO atualizarCliente(Long id, ClienteDTO cliente) {
+        Cliente clienteEntity = clienteMapper.toEntity(cliente);
         Optional <Cliente> clienteOp = clienteRepository.findById(id);
         if (clienteOp.isPresent()){
-            cliente.setId(id);
-            return clienteRepository.save(cliente);
+            clienteEntity.setId(id);
+            return clienteMapper.toDTO(clienteRepository.save(clienteEntity));
         }
         throw new ClienteNotFound("Cliente com o ID "+id+" não encontrado");
     }
