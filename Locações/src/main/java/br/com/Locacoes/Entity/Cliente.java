@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "Cliente")
 @Table(name = "Cliente")
  public class Cliente {
 
@@ -35,4 +35,9 @@ import java.time.LocalDateTime;
     public void prePersist(){
        this.dataCriacao= LocalDateTime.now();
    }
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "criador_usuario_id", nullable = false)
+   private Usuario criador;
+
 }
